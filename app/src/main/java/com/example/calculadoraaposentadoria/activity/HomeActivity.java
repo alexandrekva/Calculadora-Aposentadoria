@@ -15,8 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.calculadoraaposentadoria.R;
+import com.example.calculadoraaposentadoria.activity.models.MonthValueData;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -32,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
     private static final double MONTHLY_DIVIDENDS = 0.0030;
     private double finalValue, totalInvested, totalInterest;
     private boolean status = false;
+    private List<MonthValueData> monthValueDataList = new ArrayList<MonthValueData>();
+
 
 
     @Override
@@ -124,6 +130,7 @@ public class HomeActivity extends AppCompatActivity {
         totalInterest = 0;
         boolean firstMillion = false;
         boolean dividendsOverContribution = false;
+        monthValueDataList = new ArrayList<MonthValueData>();
 
         // O loop do cálculo acontecerá até que a quantidade de meses desejados pelo usuário seja alcançada.
         // Durante cada repetição, será acrescido ao montante final o valor da contribuição mensal somado ao valor da rentabilidade mensal da carteira.
@@ -149,16 +156,19 @@ public class HomeActivity extends AppCompatActivity {
                 dividendsOverContributionMonth = i;
                 dividendsOverContribution = true;
             }
+            if (i%12 == 0)
+            monthValueDataList.add(new MonthValueData(finalValue, i/12));
 
-            totalInterest = finalValue - totalInvested;
-
-
-            DecimalFormat decimalFormat = new DecimalFormat("#,#00.00");
-            double monthlyDividendsFinal = (finalValue * MONTHLY_DIVIDENDS);
-
-            finalAmount.setText("R$ " + decimalFormat.format(finalValue));
-            monthlyDividends.setText("R$ " + decimalFormat.format(monthlyDividendsFinal));
         }
+
+        totalInterest = finalValue - totalInvested;
+
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,#00.00");
+        double monthlyDividendsFinal = (finalValue * MONTHLY_DIVIDENDS);
+
+        finalAmount.setText("R$ " + decimalFormat.format(finalValue));
+        monthlyDividends.setText("R$ " + decimalFormat.format(monthlyDividendsFinal));
 
         //Reseta a variável do mês em que os dividendos foram ultrapassados, se o feito não for alcançado.
         if ((finalValue * MONTHLY_DIVIDENDS) <= monthlyContribution){
@@ -196,6 +206,7 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("totalInterest", totalInterest);
             intent.putExtra("total", finalValue);
             intent.putExtra("dividendsOverContribution", dividendsOverContributionMonth);
+            intent.putExtra("list", (Serializable) monthValueDataList);
             startActivity(intent);
         }
 
