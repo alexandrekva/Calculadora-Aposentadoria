@@ -73,8 +73,8 @@ public class HomeActivity extends AppCompatActivity {
         seekBarYear.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                years.setText(progress + " Anos");
                 if (status) {
-                    years.setText(progress + " Anos");
                     months = (progress * 12);
                     calculateFinalAmount();
                 }
@@ -199,11 +199,5 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-
-        // Método que define valor do campo de rentabilidade mensal
-        // Atribui ao campo rentabilidade mensal a média histórica com investidor Warren Buffet (aproximadamnte 1.497% ao mês, 20% ao ano).
-        public void buffet(View view){
-            monthlyProfitability.setText("1.497");
-        }
 
     }
