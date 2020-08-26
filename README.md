@@ -9,4 +9,5 @@ Caso o usuário deseje visualizar mais detalhes, poderá ver o quanto ele invest
 
 
 Link para download: https://drive.google.com/file/d/1tjt3Vn8RlAwGQrtdp2f_pOpKe-KZa75S/view?usp=sharing
-Ainda não disponível na PLay Store.
+
+Ainda não disponível na Play Store.
