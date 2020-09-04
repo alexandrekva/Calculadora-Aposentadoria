@@ -10,4 +10,4 @@ Caso o usuário deseje visualizar mais detalhes, poderá ver o quanto ele invest
 
 Link para download: https://drive.google.com/file/d/1tjt3Vn8RlAwGQrtdp2f_pOpKe-KZa75S/view?usp=sharing
 
-Em processo de análise pela PLay Store.
+Em processo de análise pela Play Store.
