@@ -13,11 +13,8 @@ import android.widget.ToggleButton;
 
 import com.akva.calculadoraaposentadoria.R;
 import com.akva.calculadoraaposentadoria.activity.model.CalculusDataObject;
-import com.akva.calculadoraaposentadoria.activity.model.MonthValueData;
 import com.akva.calculadoraaposentadoria.activity.util.CalculationUtil;
 import com.akva.calculadoraaposentadoria.activity.util.FormatUtil;
-import java.io.Serializable;
-import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -115,17 +112,8 @@ public class HomeActivity extends AppCompatActivity {
         // Passa para a activity os valores de total investido, total ganho em júros, o total acumulado e se os dividendos mensais ultrapassam a contribuição mensal do usuário.
         public void moreDetails(View view) {
             Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
-            double totalInvested = dataObject.getTotalInvested();
-            double totalInInterest = dataObject.getTotalInInterest();
-            double totalValue = dataObject.getTotalValue();
-            int dividendsOverContributionMonth = dataObject.getDividendsOverContributionMonth();
-            List<MonthValueData> monthValueDataList = dataObject.getMonthValueData();
 
-            intent.putExtra("totalInvested", totalInvested);
-            intent.putExtra("totalInInterest", totalInInterest);
-            intent.putExtra("totalValue", totalValue);
-            intent.putExtra("dividendsOverContributionMonth", dividendsOverContributionMonth);
-            intent.putExtra("monthValueDataList", (Serializable) monthValueDataList);
+            intent.putExtra("dataObject", this.dataObject);
             startActivity(intent);
         }
 

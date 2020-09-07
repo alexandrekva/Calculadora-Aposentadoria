@@ -1,5 +1,6 @@
 package com.akva.calculadoraaposentadoria.activity.model;
 
+
 import java.io.Serializable;
 
 public class MonthValueData implements Serializable {
@@ -9,9 +10,6 @@ public class MonthValueData implements Serializable {
     public MonthValueData(double total, int month) {
         this.total = total;
         this.month = month;
-    }
-
-    public MonthValueData() {
     }
 
     public double getTotal() {

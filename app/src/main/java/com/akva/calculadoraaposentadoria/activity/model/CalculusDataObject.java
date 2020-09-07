@@ -2,10 +2,11 @@ package com.akva.calculadoraaposentadoria.activity.model;
 
 import com.akva.calculadoraaposentadoria.activity.HomeActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalculusDataObject {
+public class CalculusDataObject implements Serializable {
 
     private double totalValue;
     private double totalInInterest;
