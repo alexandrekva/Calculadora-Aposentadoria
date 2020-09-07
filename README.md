@@ -6,6 +6,6 @@ Com base em um valor inicial aportado, uma contribuição mensal, rentabilida me
 
 Caso o usuário deseje visualizar mais detalhes, poderá ver o quanto ele investiu no total, quanto ele recebeu de juros no total, se e quando seus dividendos ultrapassaram o valor do aporte mensal, se e quando alcançou seu primeiro milhão e um gráfico de sua evolução patrimonial.
 
-Link para download: https://drive.google.com/file/d/1WgU_urHTsGTARQkajtlU1zChVai8QqTR/view?usp=sharing
+Link para download: https://drive.google.com/file/d/1dSfxwlCxCcIQlWhvTOHovNYIhpoSk8xs/view?usp=sharing
 
 Em processo de análise pela Play Store.
