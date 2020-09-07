@@ -1,4 +1,4 @@
-package com.example.calculadoraaposentadoria.activity.models;
+package com.akva.calculadoraaposentadoria.activity.model;
 
 import java.io.Serializable;
 
