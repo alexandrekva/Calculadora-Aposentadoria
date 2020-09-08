@@ -6,6 +6,4 @@ Com base em um valor inicial aportado, uma contribuição mensal, rentabilida me
 
 Caso o usuário deseje visualizar mais detalhes, poderá ver o quanto ele investiu no total, quanto ele recebeu de juros no total, se e quando seus dividendos ultrapassaram o valor do aporte mensal, se e quando alcançou seu primeiro milhão e um gráfico de sua evolução patrimonial.
 
-Link para download: https://drive.google.com/file/d/1O3WgvcqmoAXeRhhBuJQ5GbGuaGKYcSqm/view?usp=sharing
-
-Em processo de análise pela Play Store.
+Link para download: https://play.google.com/store/apps/details?id=com.akva.calculadoraaposentadoria
