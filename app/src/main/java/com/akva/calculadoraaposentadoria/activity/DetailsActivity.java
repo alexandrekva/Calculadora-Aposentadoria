@@ -92,9 +92,11 @@ public class DetailsActivity extends AppCompatActivity {
         description.setText("Evolução patrimonial");
         description.setTextSize(10);
         description.setTextColor(getResources().getColor(R.color.colorText));
+
         lineChart.getLegend().setEnabled(false);
         lineChart.setDescription(description);
         lineChart.setData(lineData);
+
         lineChart.setDrawBorders(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getAxisLeft().setDrawLabels(false);
@@ -107,6 +109,7 @@ public class DetailsActivity extends AppCompatActivity {
         lineChart.getAxisRight().setGridLineWidth(1);
         lineChart.getAxisRight().setDrawAxisLine(false);
         lineChart.getAxisRight().setTextColor(getResources().getColor(R.color.colorText));
+
         lineChart.setTouchEnabled(false);
         lineChart.animateX(1500);
         lineChart.invalidate();

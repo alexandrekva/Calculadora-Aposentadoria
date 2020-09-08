@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     private SeekBar seekBarYearPeriod;
     private ToggleButton toggleButtonDividends;
     private CalculusDataObject dataObject = new CalculusDataObject();
+    private ImageView imageViewInfo;
     private boolean status;
 
 
@@ -42,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         editTextMonthlyContribution = findViewById(R.id.editTextMonthlyContribution);
         seekBarYearPeriod = findViewById(R.id.seekBarYearPeriod);
         toggleButtonDividends = findViewById(R.id.toggleButtonDividends);
+        imageViewInfo = findViewById(R.id.imageViewInfo);
 
 
 
@@ -69,6 +72,13 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 validation();
                 doCalculus();
+            }
+        });
+
+        imageViewInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInfo();
             }
         });
 
@@ -107,14 +117,18 @@ public class HomeActivity extends AppCompatActivity {
      }
     }
 
+    private void showInfo(){
+        InfoDialog infoDialog = new InfoDialog();
+        infoDialog.show(getSupportFragmentManager(), "Informações");
+    }
 
         // Método que encaminha para a activity de detalhes
         // Passa para a activity os valores de total investido, total ganho em júros, o total acumulado e se os dividendos mensais ultrapassam a contribuição mensal do usuário.
-        public void moreDetails(View view) {
-            Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
+    public void moreDetails(View view) {
+        Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
 
-            intent.putExtra("dataObject", this.dataObject);
-            startActivity(intent);
-        }
+        intent.putExtra("dataObject", this.dataObject);
+        startActivity(intent);
+    }
 
-        }
+}

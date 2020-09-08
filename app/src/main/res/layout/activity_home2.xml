@@ -44,7 +44,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/quicksand"
             android:gravity="start|center_vertical"
-            android:text="0.00"
+            android:text="0,00"
             android:textColor="@color/colorBackground"
             android:textSize="38sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textViewCurrencySymbol"
@@ -72,12 +72,22 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/quicksand_light"
-            android:text="Dividendos mensais:"
+            android:text="Dividendos mensais: 0,00"
             android:textColor="@color/colorBackground"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_info" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
