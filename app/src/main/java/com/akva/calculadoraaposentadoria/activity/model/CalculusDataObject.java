@@ -12,6 +12,7 @@ public class CalculusDataObject implements Serializable {
     private double totalInInterest;
     private double totalInvested;
     private double monthlyDividends;
+    private double monthlyDividendsPercent;
     private int firstMillionMonth;
     private int dividendsOverContributionMonth;
     private List<MonthValueData> monthValueData;
@@ -23,7 +24,9 @@ public class CalculusDataObject implements Serializable {
         this.totalInvested = 0;
         this.firstMillionMonth = 0;
         this.dividendsOverContributionMonth = 0;
+        this.monthlyDividendsPercent = 0;
         this.monthlyDividends = 0;
+
     }
 
     public double getTotalValue() {
@@ -31,7 +34,7 @@ public class CalculusDataObject implements Serializable {
     }
 
     public void setTotalValue(double totalValue) {
-        this.monthlyDividends = totalValue * HomeActivity.MONTHLY_DIVIDENDS;
+        this.monthlyDividends = totalValue * monthlyDividendsPercent;
         this.totalValue = totalValue;
     }
 
@@ -82,5 +85,17 @@ public class CalculusDataObject implements Serializable {
 
     public void addMonthValueData(MonthValueData monthValueData) {
         this.monthValueData.add(monthValueData);
+    }
+
+    public double getMonthlyDividendsPercent() {
+        return monthlyDividendsPercent;
+    }
+
+    public void setMonthlyDividendsPercent(double monthlyDividendsPercent) {
+        this.monthlyDividendsPercent = monthlyDividendsPercent;
+    }
+
+    public void setMonthlyDividends() {
+        this.monthlyDividends = totalInInterest * monthlyDividendsPercent;
     }
 }

@@ -11,6 +11,7 @@ import com.akva.calculadoraaposentadoria.activity.model.MonthValueData;
 import com.akva.calculadoraaposentadoria.activity.util.FormatUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -49,6 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
         this.dataObject = (CalculusDataObject) intent.getSerializableExtra("dataObject");
         int dividendsOverContributionMonth = dataObject.getDividendsOverContributionMonth();
         int firstMillionMonth = dataObject.getFirstMillionMonth();
+        double initialValue = (Double) intent.getExtras().get("initialValue");
 
         String totalValueString = new FormatUtil().formatDecimal(dataObject.getTotalValue());
         String totalInInterestString = new FormatUtil().formatDecimal(dataObject.getTotalInInterest());
@@ -62,8 +64,11 @@ public class DetailsActivity extends AppCompatActivity {
         if (dividendsOverContributionMonth != 0)
             textDividendsOverContribution.setText("Seus dividendos ultrapassaram o valor do aporte mensal no mês " + dividendsOverContributionMonth + "!");
 
-        if (firstMillionMonth != 0)
+        if (firstMillionMonth != 0 && initialValue < 1000000) {
             textFirstMillion.setText("Você alcançou o primeiro milhão no mês " + firstMillionMonth + "!");
+        } else if (initialValue >= 1000000) {
+            textFirstMillion.setText("Parabéns, você já possuía um milhão!");
+        }
     }
 
     @Override
@@ -81,12 +86,19 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Patrimônio acumulado");
+        LineData lineData = new LineData(dataSet);
+        lineChart.setData(lineData);
+
+        customizeChart(dataSet, lineChart);
+
+    }
+
+    private void customizeChart(LineDataSet dataSet, LineChart lineChart){
+
         dataSet.setDrawCircles(false);
         dataSet.setDrawValues(false);
         dataSet.setLineWidth(3);
         dataSet.setColor(getResources().getColor(R.color.colorAccent));
-
-        LineData lineData = new LineData(dataSet);
 
         Description description = new Description();
         description.setText("Evolução patrimonial");
@@ -95,7 +107,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         lineChart.getLegend().setEnabled(false);
         lineChart.setDescription(description);
-        lineChart.setData(lineData);
 
         lineChart.setDrawBorders(false);
         lineChart.getAxisLeft().setDrawGridLines(false);
@@ -113,6 +124,7 @@ public class DetailsActivity extends AppCompatActivity {
         lineChart.setTouchEnabled(false);
         lineChart.animateX(1500);
         lineChart.invalidate();
+
     }
 
 

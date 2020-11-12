@@ -14,27 +14,31 @@ import android.widget.ToggleButton;
 
 import com.akva.calculadoraaposentadoria.R;
 import com.akva.calculadoraaposentadoria.activity.model.CalculusDataObject;
+import com.akva.calculadoraaposentadoria.activity.model.UserInputData;
 import com.akva.calculadoraaposentadoria.activity.util.CalculationUtil;
 import com.akva.calculadoraaposentadoria.activity.util.FormatUtil;
+import com.akva.calculadoraaposentadoria.activity.util.ValidationUtil;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements InfoDialog.ExampleDialogListener {
 
     // Variáveis
-    public static final double MONTHLY_DIVIDENDS = 0.3 / 100;
+    private double monthlyDividends = 0.3;
+    private double monthlyDividendsPercent = monthlyDividends / 100;
+    private double initialValue = 0;
     private TextView textViewTotalValue, textViewYearPeriod, textViewMonthlyDividends;
     private EditText editTextInitialValue, editTextMonthlyContribution, editTextMonthlyProfitability;
     private SeekBar seekBarYearPeriod;
     private ToggleButton toggleButtonDividends;
-    private CalculusDataObject dataObject = new CalculusDataObject();
+    private CalculusDataObject dataObject;
     private ImageView imageViewInfo;
-    private boolean status;
+    private boolean validationStatus;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home2);
+        setContentView(R.layout.activity_home);
 
         textViewTotalValue = findViewById(R.id.textViewTotalValue);
         textViewYearPeriod = findViewById(R.id.textViewYearPeriod);
@@ -53,8 +57,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 textViewYearPeriod.setText(progress + " Anos");
-                doCalculus();
 
+                if (validationStatus) {
+                doCalculus();
+                setTextViewsValues(dataObject);
+                }
             }
 
             @Override
@@ -71,7 +78,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validation();
-                doCalculus();
+                if (validationStatus) {
+                    doCalculus();
+                    setTextViewsValues(dataObject);
+                }
             }
         });
 
@@ -86,39 +96,45 @@ public class HomeActivity extends AppCompatActivity {
 
     private void doCalculus(){
 
-        if (status){
-            double initialValue = Double.parseDouble(this.editTextInitialValue.getText().toString());
+            initialValue = Double.parseDouble(this.editTextInitialValue.getText().toString());
             double monthlyContribution = Double.parseDouble(this.editTextMonthlyContribution.getText().toString());
             double monthlyProfitability = (Double.parseDouble((this.editTextMonthlyProfitability.getText().toString()))) / 100;
             int periodInMonths = seekBarYearPeriod.getProgress() * 12;
 
-            dataObject = new CalculationUtil().calculateProfitability(initialValue, monthlyContribution, monthlyProfitability, periodInMonths, toggleButtonDividends.isChecked());
-            String totalValueString = new FormatUtil().formatDecimal(dataObject.getTotalValue());
-            String monthlyDividendsString = new FormatUtil().formatDecimal(dataObject.getMonthlyDividends());
-            this.textViewTotalValue.setText(totalValueString);
-            this.textViewMonthlyDividends.setText("Dividendos mensais: " + monthlyDividendsString);
+            UserInputData userInputData = new UserInputData(initialValue, monthlyContribution, monthlyProfitability, periodInMonths, toggleButtonDividends.isChecked(), monthlyDividendsPercent);
+
+            dataObject = new CalculationUtil().calculateProfitability(userInputData);
         }
+
+
+    private void setTextViewsValues(CalculusDataObject dataObject){
+        double totalValue = dataObject.getTotalValue();
+        String totalValueString = new FormatUtil().formatWithoutDecimal(totalValue);
+        String totalDividendsString = new FormatUtil().formatWithoutDecimal(dataObject.getMonthlyDividends());
+
+        if (totalValue >= 1000000000000.0){
+            this.textViewTotalValue.setText("um trilhão +");
+        } else {
+            this.textViewTotalValue.setText(totalValueString);
+        }
+
+        this.textViewMonthlyDividends.setText("Dividendos mensais: R$" + totalDividendsString);
     }
 
     // Método de validação dos campos de entrada de dados
     // Define a variável status como true se todos os campos de inserção de dados forem preenchidos, do contrário, define como false.
+
     private void validation() {
-     if (editTextInitialValue == null || editTextInitialValue.getText().toString().isEmpty() ){
-         Toast.makeText(this, "Insira um valor inicial válido", Toast.LENGTH_SHORT).show();
-         status = false;
-     } else if (editTextMonthlyContribution == null || editTextMonthlyContribution.getText().toString().isEmpty()){
-         Toast.makeText(this, "Insira uma contribuição mensal válida", Toast.LENGTH_SHORT).show();
-         status = false;
-     } else if (editTextMonthlyProfitability == null || editTextMonthlyProfitability.getText().toString().isEmpty()){
-         Toast.makeText(this, "Insira uma rentabilidade mensal válida", Toast.LENGTH_SHORT).show();
-         status = false;
-     } else{
-         status = true;
-     }
+        ValidationUtil validationUtil = new ValidationUtil(editTextInitialValue, editTextMonthlyContribution, editTextMonthlyProfitability, this.getApplicationContext());
+        validationStatus = validationUtil.validation();
     }
 
     private void showInfo(){
         InfoDialog infoDialog = new InfoDialog();
+        Bundle args = new Bundle();
+        args.putDouble("monthlyDividends", monthlyDividends);
+
+        infoDialog.setArguments(args);
         infoDialog.show(getSupportFragmentManager(), "Informações");
     }
 
@@ -128,7 +144,14 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
 
         intent.putExtra("dataObject", this.dataObject);
+        intent.putExtra("initialValue", initialValue);
         startActivity(intent);
     }
 
+    @Override
+    public void applyTexts(Double monthlyDividends) {
+        this.monthlyDividends = monthlyDividends;
+        this.monthlyDividendsPercent = monthlyDividends / 100;
+
+    }
 }
