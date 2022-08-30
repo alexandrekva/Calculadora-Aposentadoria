@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Simulador de investimentos</string>
+
+    <!--Strings-->
+    <string name="simulation">Simulação</string>
+    <string name="years">anos</string>
+    <string name="reinvest_dividends">Reinvestir dividendos?</string>
 </resources>
