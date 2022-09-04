@@ -2,8 +2,8 @@ package com.akva.calculadoraaposentadoria.feature_simulation.presentation.input_
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.akva.calculadoraaposentadoria.feature_simulation.domain.SimulationParameters
-import java.math.BigDecimal
+import com.akva.calculadoraaposentadoria.core.extensions.toBigDecimalFromInput
+import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
 
 class InputScreenViewModel : ViewModel() {
 
@@ -13,10 +13,10 @@ class InputScreenViewModel : ViewModel() {
     var monthlyContribution = mutableStateOf("")
         private set
 
-    var monthlyYield = mutableStateOf(0f)
+    var monthlyYield = mutableStateOf("")
         private set
 
-    var monthlyAppreciation = mutableStateOf(0f)
+    var monthlyAppreciation = mutableStateOf("")
         private set
 
     var years = mutableStateOf(35f)
@@ -25,15 +25,32 @@ class InputScreenViewModel : ViewModel() {
     var isReinvestingDividends = mutableStateOf(true)
         private set
 
-    fun getSimulationParameters(): SimulationParameters {
-        return SimulationParameters(
-            initialAmount = initialAmount.value.toBigDecimal(),
-            monthlyContribution = monthlyContribution.value.toBigDecimal(),
-            monthlyYield = monthlyYield.value,
-            monthlyAppreciation = monthlyAppreciation.value,
-            years = years.value.toInt(),
-            isReinvestingDividends = isReinvestingDividends.value
-        )
+    var dialogState = mutableStateOf<DialogState>(DialogState.Closed)
+        private set
+
+    fun setDialogOpen(title: String, description: String) {
+        dialogState.value = DialogState.Open(title = title, description = description)
     }
 
+    fun setDialogClosed() {
+        dialogState.value = DialogState.Closed
+    }
+
+    fun getSimulationParameters(): SimulationParameters {
+        val initialAmount = this.initialAmount.value.toBigDecimalFromInput()
+        val monthlyContribution = this.monthlyContribution.value.toBigDecimalFromInput()
+        val monthlyAppreciation = this.monthlyAppreciation.value.toBigDecimalFromInput()
+        val monthlyYield = this.monthlyYield.value.toBigDecimalFromInput()
+        val isReinvestingDividends = this.isReinvestingDividends.value
+        val years = this.years.value
+
+        return SimulationParameters(
+            initialAmount = initialAmount,
+            monthlyContribution = monthlyContribution,
+            monthlyYield = (monthlyYield.toFloat() / 100),
+            monthlyAppreciation = (monthlyAppreciation.toFloat() / 100),
+            years = years.toInt(),
+            isReinvestingDividends = isReinvestingDividends
+        )
+    }
 }

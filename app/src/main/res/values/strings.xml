@@ -2,7 +2,40 @@
     <string name="app_name">Simulador de investimentos</string>
 
     <!--Strings-->
-    <string name="simulation">Simulação</string>
-    <string name="years">anos</string>
-    <string name="reinvest_dividends">Reinvestir dividendos?</string>
+    <string name="simulacao">Simulação</string>
+    <string name="simular">Simular</string>
+    <string name="anos">anos</string>
+    <string name="reinvestir_dividendos">Reinvestir dividendos?</string>
+    <string name="fechar">Fechar</string>
+
+    <string name="simbolo_moeda">R$</string>
+    <string name="simbolo_moeda_com_texto">R$ %1$s</string>
+    <string name="simbolo_porcentagem">%</string>
+
+    <string name="icone_informacao">ícone de informação</string>
+
+    <string name="investimento_inicial">Investimento inicial</string>
+    <string name="investimento_inicial_dialog_title">O que é o investimento inicial?</string>
+    <string name="investimento_inicial_dialog_description">O investimento incial é aquele valor que você dispõe inicialmente já deseja investir para começar sua jornada.</string>
+
+    <string name="aporte_mensal">Aporte mensal</string>
+    <string name="aporte_mensal_dialog_title">O que é o aporte mensal?</string>
+    <string name="aporte_mensal_dialog_description">O aporte mensal se refere ao valor que você pretende investir todos os meses.</string>
+
+    <string name="valorizacao_mensal">Valorizacao mensal</string>
+    <string name="valorizacao_mensal_dialog_title">O que é a valorização mensal?</string>
+    <string name="valorizacao_mensal_dialog_desciption">A valorização mensal é o quanto você espera que seu patrimônio, em média, se valorize por mês.\n\nValores superiores à 1,3% ao mês são muito difíceis de se manter em longo prazo, representando mais de 16% ao ano.</string>
+
+    <string name="rendimentos_mensais">Rendimentos mensais</string>
+    <string name="rendimentos_mensais_dialog_title">O que são os rendimentos mensais?</string>
+    <string name="rendimentos_mensais_dialog_description">Os rendimentos mensais são os valores pagos à você como forma de proventos.\n\nValores superiors à 0,8% são difíceis de se manter em um horizonte de longo prazo, representando mais de 10% ao ano.</string>
+
+    <string name="patrimonio_total">Patrimônio total</string>
+    <string name="total_investido">Total investido</string>
+    <string name="total_reinvestido_dividendos">Total reinvestido em dividendos</string>
+    <string name="valorizacao_total">Valorização total</string>
+    <string name="primeiro_milhao">Primeiro milhão</string>
+    <string name="primeiro_milhao_ja_possuido">Você já possuía 1 milhão ou mais quando começou a investir.</string>
+    <string name="primeiro_milhao_nao_alcancado">Você ainda não alcançou o primeiro milhão.</string>
+    <string name="primeiro_milhao_alcancado">Primeiro milhão alcançado em %1$s.</string>
 </resources>

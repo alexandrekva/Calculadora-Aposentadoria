@@ -1,4 +1,4 @@
-package com.akva.calculadoraaposentadoria.core.components.currency_input_field
+package com.akva.calculadoraaposentadoria.core.components.decimal_value_input_field
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
@@ -6,7 +6,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import com.akva.calculadoraaposentadoria.core.extensions.toCurrencyFormat
 
-class CurrencyInputVisualTransformation() :
+class DecimalValueInputVisualTransformation() :
     VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         val formattedText = text.text.toCurrencyFormat()

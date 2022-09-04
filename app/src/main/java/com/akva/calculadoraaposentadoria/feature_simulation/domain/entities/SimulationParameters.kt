@@ -1,4 +1,4 @@
-package com.akva.calculadoraaposentadoria.feature_simulation.domain
+package com.akva.calculadoraaposentadoria.feature_simulation.domain.entities
 
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +15,7 @@ data class SimulationParameters(
     val monthlyYield: Float,
     val monthlyAppreciation: Float,
     val years: Int,
+    val months: Int = years * 12,
     val isReinvestingDividends: Boolean,
     val patrimonyGoal: BigDecimal? = BigDecimal(0),
     val dividendsGoal: BigDecimal? = BigDecimal(0)

@@ -1,5 +1,6 @@
 package com.akva.calculadoraaposentadoria.core.extensions
 
+import java.math.BigDecimal
 import java.text.DecimalFormat
 
 fun String.toCurrencyFormat(): String {
@@ -10,4 +11,12 @@ fun String.toCurrencyFormat(): String {
         .divide(100.toBigDecimal())
 
     return formatter.format(value)
+}
+
+fun String.toBigDecimalFromInput(): BigDecimal {
+    return this
+        .ifBlank { "0" }
+        .toBigDecimal()
+        .divide(100.toBigDecimal())
+
 }
