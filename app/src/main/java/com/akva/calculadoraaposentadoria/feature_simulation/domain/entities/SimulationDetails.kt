@@ -3,16 +3,29 @@ package com.akva.calculadoraaposentadoria.feature_simulation.domain.entities
 import com.akva.calculadoraaposentadoria.core.extensions.*
 import java.math.BigDecimal
 
-data class SimulationDetails(val monthEvolutionList: MutableList<MonthEvolution>) {
+data class SimulationDetails(
+    val monthEvolutionList: MutableList<MonthEvolution>,
+    val simulationParameters: SimulationParameters
+) {
     val totalInvested: BigDecimal = monthEvolutionList.getTotalInvestedValue()
-    val totalInvestedString: String = monthEvolutionList.getTotalInvestedValue().toCurrencyFormat()
     val totalReinvestedDividends: BigDecimal = monthEvolutionList.getTotalReinvestedDividends()
-    val totalReinvestedDividendsString: String = monthEvolutionList.getTotalReinvestedDividends().toCurrencyFormat()
     val totalAppreciation: BigDecimal = monthEvolutionList.getTotalAppreciation()
-    val totalAppreciationString: String = monthEvolutionList.getTotalAppreciation().toCurrencyFormat()
     val totalPatrimony: BigDecimal = monthEvolutionList.getTotalPatrimony()
-    val totalPatrimonyString: String = monthEvolutionList.getTotalPatrimony().toCurrencyFormat()
+    val finalMonthlyDividends: BigDecimal =
+        monthEvolutionList.getFinalMonthlyDividends(simulationParameters.monthlyYield)
+
+    val hasDividendsSurpassedMonthlyContribution =
+        monthEvolutionList.hasDividendsSurpassedMonthlyContribution(simulationParameters.monthlyContribution)
+    val dividendsSurpassedMonthlyContributionMonth =
+        monthEvolutionList.getDividendsSurpassedMonthlyContributionMonth()
+
     val firstMillionAchievedMonth: Int = monthEvolutionList.getMillionAchievedMonth()
-    val patrimonyGoalAchievedMonth: Int = -1
-    val dividendsGoalAchievedMonth: Int = -1
+
+    val hasPatrimonyGoal = simulationParameters.patrimonyGoal != BigDecimal.ZERO
+    val patrimonyGoalAchievedMonth: Int =
+        monthEvolutionList.getPatrimonyGoalAchievedMonth(simulationParameters.patrimonyGoal)
+
+    val hasDividendsGoal = simulationParameters.dividendsGoal != BigDecimal.ZERO
+    val dividendsGoalAchievedMonth: Int =
+        monthEvolutionList.getDividendsGoalAchieved(simulationParameters.dividendsGoal)
 }

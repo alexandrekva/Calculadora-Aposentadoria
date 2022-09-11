@@ -3,10 +3,48 @@
 
     <!--Strings-->
     <string name="simulacao">Simulação</string>
+    <string name="detalhes">Detalhes</string>
     <string name="simular">Simular</string>
-    <string name="anos">anos</string>
-    <string name="reinvestir_dividendos">Reinvestir dividendos?</string>
+    <string name="entenda_simulacao">Entenda a simulação</string>
+    <string name="sobre_app">Sobre o app</string>
+    <string name="aportes_titulo">Aportes</string>
+    <string name="como_funciona_aportes">
+        O usuário pode contribuir diretamente com aportes de duas formas: investimento inicial e aportes mensais.
+        \n\nO investimento inicial corresponde ao valor que será investido uma única vez apenas, no início do primeiro mês na simulação.
+         Caso o usuário tenha optado por fazer um aporte inicial, nesse primeiro mês, não será feito o aporte mensal.
+        \n\nOs aportes mensais serão feitos em todos os meses, exceto no primeiro mês, caso o usuário tenha optado por realizar um investimento inicial, como mencionado anteriormente.
+        \n\nAo final da simulação o usuário poderá visualizar o valor total investido diretamente pelo usuário, contando investimento inicial e aportes mensais.
+    </string>
+    <string name="proventos_titulo">Proventos</string>
+    <string name="como_funciona_proventos">
+        Os ativos podem remunerar diretamente os investidores através dos proventos, como os dividendos e JCP no caso das ações e os rendimentos dos fundos imobiliários.
+         O usuário poderá definir a porcentagem mensal que espera receber em proventos. A média do Ibovespa é de cerca de 3,6% ao ano, aproximadamente 0,32% ao mês.
+        \n\nAo selecionar a opção de reinvestir proventos, tudo que for recebido na forma de proventos será reinvestido. Os proventos de um mês serão sempre reinvestidos no mês seguinte.
+        \n\nO usuário podera visualizar ao final o total reinvestido em dividendos durante a simulação.
+    </string>
+    <string name="rendimento_titulo">Rendimento</string>
+    <string name="como_funciona_rendimento">
+        O usuário deve definir o quanto espera, em média, que sua carteira vá se valorizar a cada mês, e assim como o reinvestimento dos proventos, a valorização de um mês será acrescentada no mês seguinte.
+        \n\nAo final da simulação o usuário poderá visualizar o valor total obtido através da valorização dos seus ativos.
+    </string>
+
+    <string name="reinvestir_proventos">Reinvestir proventos?</string>
     <string name="fechar">Fechar</string>
+    <string name="voltar">Voltar</string>
+    <string name="e">e</string>
+
+    <plurals name="stringPluralMeses">
+        <item quantity="zero" />
+        <item quantity="one">mês</item>
+        <item quantity="other">meses</item>
+    </plurals>
+
+    <plurals name="stringPluralAnos">
+        <item quantity="zero" />
+        <item quantity="one">ano</item>
+        <item quantity="other">anos</item>
+    </plurals>
+
 
     <string name="simbolo_moeda">R$</string>
     <string name="simbolo_moeda_com_texto">R$ %1$s</string>
@@ -16,19 +54,25 @@
 
     <string name="investimento_inicial">Investimento inicial</string>
     <string name="investimento_inicial_dialog_title">O que é o investimento inicial?</string>
-    <string name="investimento_inicial_dialog_description">O investimento incial é aquele valor que você dispõe inicialmente já deseja investir para começar sua jornada.</string>
+    <string name="investimento_inicial_dialog_description">O investimento inicial é aquele valor que você dispõe inicialmente já deseja investir para começar sua jornada.</string>
 
     <string name="aporte_mensal">Aporte mensal</string>
     <string name="aporte_mensal_dialog_title">O que é o aporte mensal?</string>
     <string name="aporte_mensal_dialog_description">O aporte mensal se refere ao valor que você pretende investir todos os meses.</string>
 
-    <string name="valorizacao_mensal">Valorizacao mensal</string>
-    <string name="valorizacao_mensal_dialog_title">O que é a valorização mensal?</string>
-    <string name="valorizacao_mensal_dialog_desciption">A valorização mensal é o quanto você espera que seu patrimônio, em média, se valorize por mês.\n\nValores superiores à 1,3% ao mês são muito difíceis de se manter em longo prazo, representando mais de 16% ao ano.</string>
+    <string name="rendimento_mensal">Rendimento mensal</string>
+    <string name="rendimento_mensal_dialog_title">O que é o rendimento mensal?</string>
+    <string name="rendimento_mensal_dialog_desciption">
+        O rendimento mensal é o quanto você espera que seu patrimônio, em média, se valorize por mês.
+        \n\nValores superiores à 1,3% ao mês são muito difíceis de se manter em longo prazo, representando mais de 16% ao ano.
+    </string>
 
-    <string name="rendimentos_mensais">Rendimentos mensais</string>
-    <string name="rendimentos_mensais_dialog_title">O que são os rendimentos mensais?</string>
-    <string name="rendimentos_mensais_dialog_description">Os rendimentos mensais são os valores pagos à você como forma de proventos.\n\nValores superiors à 0,8% são difíceis de se manter em um horizonte de longo prazo, representando mais de 10% ao ano.</string>
+    <string name="proventos_mensais">Proventos mensais</string>
+    <string name="proventos_mensais_dialog_title">O que são os proventos mensais?</string>
+    <string name="proventos_mensais_dialog_description">
+        Os proventos mensais representam uma média do valor pago por seus ativos a você, como dividendos ou JCP por exemplo.
+        \n\nValores superiores à 0,8% são difíceis de se manter em um horizonte de longo prazo, representando mais de 10% ao ano.
+    </string>
 
     <string name="patrimonio_total">Patrimônio total</string>
     <string name="total_investido">Total investido</string>
@@ -38,4 +82,7 @@
     <string name="primeiro_milhao_ja_possuido">Você já possuía 1 milhão ou mais quando começou a investir.</string>
     <string name="primeiro_milhao_nao_alcancado">Você ainda não alcançou o primeiro milhão.</string>
     <string name="primeiro_milhao_alcancado">Primeiro milhão alcançado em %1$s.</string>
+    <string name="proventos_mensais_ao_final">Você estará recebendo cerca de R$ %1$s em proventos por mês ao final da simulação.</string>
+    <string name="proventos_nao_ultrapassaram_contribuicao_mensal">Seus proventos mensais ainda não alcançaram sua contribuição mensal.</string>
+    <string name="proventos_ultrapassaram_contribuicao_mensal">Seus proventos mensais ultrapassaram sua contribuição mensal em %1$s.</string>
 </resources>

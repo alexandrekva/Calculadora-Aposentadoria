@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.details_screen.DetailsScreen
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.input_screen.InputScreen
+import com.akva.calculadoraaposentadoria.feature_simulation.presentation.understand_simulation_screen.UnderstandSimulationScreen
 
 @RequiresApi(33)
 @Composable
@@ -20,9 +21,11 @@ fun SetupNavGraph(navController: NavHostController, startDestination: String) {
                     val routeWithArgs =
                         Screens.DetailsScreen.passSimulationParameters(simulationParameters)
                     navController.navigate(routeWithArgs)
-                }
+                },
+                navigateToUnderstandSimulation = { navController.navigate(Screens.UnderstandSimulationScreen.route) }
             )
         }
+
         composable(
             route = Screens.DetailsScreen.route, arguments = listOf(
                 navArgument(SIMULATION_PARAMETERS_ARGS_KEY) {
@@ -35,7 +38,14 @@ fun SetupNavGraph(navController: NavHostController, startDestination: String) {
                     SIMULATION_PARAMETERS_ARGS_KEY
                 )
 
-            DetailsScreen(simulationParameters = simulationParameters)
+            DetailsScreen(
+                simulationParameters = simulationParameters,
+                popBackStack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screens.UnderstandSimulationScreen.route) {
+            UnderstandSimulationScreen(popBackStack = { navController.popBackStack() })
         }
     }
 

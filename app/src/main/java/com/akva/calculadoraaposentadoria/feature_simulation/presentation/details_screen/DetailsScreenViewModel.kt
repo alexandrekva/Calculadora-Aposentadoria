@@ -20,7 +20,12 @@ class DetailsScreenViewModel : ViewModel() {
             val monthEvolutionList =
                 CreateMonthEvolutionListFromParameters(simulationParameters)
             detailsScreenViewState.value =
-                DetailsScreenViewState.Loaded(SimulationDetails(monthEvolutionList))
+                DetailsScreenViewState.Loaded(
+                    SimulationDetails(
+                        monthEvolutionList = monthEvolutionList,
+                        simulationParameters = simulationParameters
+                    )
+                )
         }
     }
 

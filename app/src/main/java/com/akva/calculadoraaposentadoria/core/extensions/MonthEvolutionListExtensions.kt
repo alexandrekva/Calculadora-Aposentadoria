@@ -14,19 +14,11 @@ fun MutableList<MonthEvolution>.addMonth(simulationParameters: SimulationParamet
 
 fun MutableList<MonthEvolution>.addFirstMonth(simulationParameters: SimulationParameters) {
     simulationParameters.run {
-        val reinvestedDividendsValue =
-            if (isReinvestingDividends) initialAmount * monthlyYield.toBigDecimal()
-            else BigDecimal(0)
-
-        val monthAppreciationValue = initialAmount * monthlyAppreciation.toBigDecimal()
+        val firstMonthInvestment = if (initialAmount != BigDecimal(0)) initialAmount else monthlyContribution
 
         val monthEvolution = MonthEvolution(
-            currentMonthInvestedValue = simulationParameters.initialAmount,
-            currentMonthReinvestedDividends = reinvestedDividendsValue,
-            currentMonthAppreciation = monthAppreciationValue,
-            totalInvestedValue = initialAmount,
-            totalReinvestedDividends = reinvestedDividendsValue,
-            totalAppreciation = monthAppreciationValue
+            currentMonthInvestedValue = firstMonthInvestment,
+            totalInvestedValue = firstMonthInvestment,
         )
 
         this@addFirstMonth.add(monthEvolution)
@@ -37,13 +29,11 @@ fun MutableList<MonthEvolution>.addNextMonth(simulationParameters: SimulationPar
     val previousMonth = this@addNextMonth.last()
 
     simulationParameters.run {
-        val currentPatrimony = previousMonth.totalPatrimony + monthlyContribution
-
         val reinvestedDividendsValue =
-            if (isReinvestingDividends) currentPatrimony * monthlyYield.toBigDecimal()
-            else BigDecimal(0)
+            if (isReinvestingDividends) previousMonth.totalPatrimony * monthlyYield.toBigDecimal()
+            else BigDecimal.ZERO
 
-        val monthAppreciationValue = currentPatrimony * monthlyAppreciation.toBigDecimal()
+        val monthAppreciationValue = previousMonth.totalPatrimony * monthlyAppreciation.toBigDecimal()
 
         val monthEvolution = MonthEvolution(
             currentMonthInvestedValue = monthlyContribution,
@@ -63,29 +53,46 @@ fun MutableList<MonthEvolution>.getMillionAchievedMonth(): Int {
     return this.indexOf(millionAchievedMonth)
 }
 
-fun MutableList<MonthEvolution>.getDividendsBiggerThanMonthlyInvestmentMonth(): Int {
+fun MutableList<MonthEvolution>.getFinalMonthlyDividends(monthlyYield: Float): BigDecimal {
+    return last().totalPatrimony * monthlyYield.toBigDecimal()
+}
+
+fun MutableList<MonthEvolution>.hasDividendsSurpassedMonthlyContribution(monthlyContribution: BigDecimal): Boolean {
+    return (this.last().currentMonthReinvestedDividends > monthlyContribution)
+}
+
+fun MutableList<MonthEvolution>.getDividendsSurpassedMonthlyContributionMonth(): Int {
     val dividendsBiggerThanMonthlyInvestmentMonth =
         this.find { it.currentMonthReinvestedDividends > it.currentMonthInvestedValue }
     return this.indexOf(dividendsBiggerThanMonthlyInvestmentMonth)
 }
 
 fun MutableList<MonthEvolution>.getPatrimonyGoalAchievedMonth(patrimonyGoal: BigDecimal): Int {
-    val patrimonyGoalAchievedMonth =
-        this.find { it.totalPatrimony <= patrimonyGoal }
-    return this.indexOf(patrimonyGoalAchievedMonth)
+    return if (patrimonyGoal != BigDecimal.ZERO) {
+        val patrimonyGoalAchievedMonth =
+            this.find { it.totalPatrimony <= patrimonyGoal }
+        this.indexOf(patrimonyGoalAchievedMonth)
+    } else {
+        -1
+    }
+
 }
 
 fun MutableList<MonthEvolution>.getDividendsGoalAchieved(dividendsGoal: BigDecimal): Int {
-    val dividendsGoalAchievedMonth =
-        this.find { it.currentMonthReinvestedDividends <= dividendsGoal }
-    return this.indexOf(dividendsGoalAchievedMonth)
+    return if (dividendsGoal != BigDecimal.ZERO) {
+        val dividendsGoalAchievedMonth =
+            this.find { it.currentMonthReinvestedDividends >= dividendsGoal }
+        this.indexOf(dividendsGoalAchievedMonth)
+    } else {
+        -1
+    }
 }
 
 fun MutableList<MonthEvolution>.getTotalInvestedValue(): BigDecimal {
     return if (this.isNotEmpty()) {
         return this.last().totalInvestedValue
     } else {
-        BigDecimal(0)
+        BigDecimal.ZERO
     }
 }
 
@@ -93,7 +100,7 @@ fun MutableList<MonthEvolution>.getTotalReinvestedDividends(): BigDecimal {
     return if (this.isNotEmpty()) {
         this.last().totalReinvestedDividends
     } else {
-        BigDecimal(0)
+        BigDecimal.ZERO
     }
 }
 
@@ -101,7 +108,7 @@ fun MutableList<MonthEvolution>.getTotalAppreciation(): BigDecimal {
     return if (this.isNotEmpty()) {
         this.last().totalAppreciation
     } else {
-        BigDecimal(0)
+        BigDecimal.ZERO
     }
 }
 
@@ -109,6 +116,6 @@ fun MutableList<MonthEvolution>.getTotalPatrimony(): BigDecimal {
     return if (this.isNotEmpty()) {
         this.last().totalPatrimony
     } else {
-        BigDecimal(0)
+        BigDecimal.ZERO
     }
 }

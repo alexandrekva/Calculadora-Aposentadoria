@@ -17,8 +17,8 @@ data class SimulationParameters(
     val years: Int,
     val months: Int = years * 12,
     val isReinvestingDividends: Boolean,
-    val patrimonyGoal: BigDecimal? = BigDecimal(0),
-    val dividendsGoal: BigDecimal? = BigDecimal(0)
+    val patrimonyGoal: BigDecimal = BigDecimal.ZERO,
+    val dividendsGoal: BigDecimal = BigDecimal.ZERO
 ): Parcelable {
     companion object NavigationType : NavType<SimulationParameters>(isNullableAllowed = false) {
         override fun get(bundle: Bundle, key: String): SimulationParameters? {

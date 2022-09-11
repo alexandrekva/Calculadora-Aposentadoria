@@ -35,7 +35,7 @@ fun LabeledSlider(
             modifier = Modifier.fillMaxWidth(0.85f),
             value = progress.value,
             valueRange = valueRange,
-            onValueChange = { progress.value = it })
+            onValueChange = { if (it.toInt() != 0) progress.value = it })
     }
 }
 

@@ -28,12 +28,19 @@ class InputScreenViewModel : ViewModel() {
     var dialogState = mutableStateOf<DialogState>(DialogState.Closed)
         private set
 
+    var  menuState = mutableStateOf(false)
+        private set
+
     fun setDialogOpen(title: String, description: String) {
         dialogState.value = DialogState.Open(title = title, description = description)
     }
 
     fun setDialogClosed() {
         dialogState.value = DialogState.Closed
+    }
+
+    fun setMenuState(boolean: Boolean) {
+        menuState.value = boolean
     }
 
     fun getSimulationParameters(): SimulationParameters {

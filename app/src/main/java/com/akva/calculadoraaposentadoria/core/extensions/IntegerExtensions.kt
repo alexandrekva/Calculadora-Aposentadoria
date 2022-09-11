@@ -1,22 +1,20 @@
 package com.akva.calculadoraaposentadoria.core.extensions
 
-fun Int.toYearsAndMonthsString(): String? {
-    val year = this/12
-    val month = this%12
-    val yearString = when(year) {
-        0 -> null
-        1 -> "$year ano"
-        else -> "$year anos"
-    }
-    val monthString = when(month) {
-        0 -> null
-        1 -> "$month mês"
-        else -> "$month meses"
-    }
+import android.content.Context
+import com.akva.calculadoraaposentadoria.R
+
+fun Int.toYearsAndMonthsString(context: Context): String? {
+    val year = this / 12
+    val month = this % 12
+
+    val yearString = "$year "  + context.resources.getQuantityString(R.plurals.stringPluralAnos, year)
+    val monthString = "$month " + context.resources.getQuantityString(R.plurals.stringPluralMeses, month)
+    val andString = context.resources.getString(R.string.e)
+
     return when {
-        yearString == null && monthString == null -> null
-        yearString != null && monthString == null -> yearString
-        yearString == null && monthString != null -> monthString
-        else -> "$yearString e $monthString"
+        yearString.isEmpty() && monthString.isEmpty() -> null
+        yearString.isNotEmpty() && monthString.isEmpty() -> yearString
+        yearString.isEmpty() && monthString.isNotEmpty() -> monthString
+        else -> "$yearString $andString $monthString"
     }
 }
