@@ -3,6 +3,7 @@ package com.akva.calculadoraaposentadoria.feature_simulation.presentation.detail
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.akva.calculadoraaposentadoria.core.extensions.getYears
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationDetails
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
 import com.akva.calculadoraaposentadoria.feature_simulation.utils.CreateMonthEvolutionListFromParameters
@@ -28,5 +29,4 @@ class DetailsScreenViewModel : ViewModel() {
                 )
         }
     }
-
 }

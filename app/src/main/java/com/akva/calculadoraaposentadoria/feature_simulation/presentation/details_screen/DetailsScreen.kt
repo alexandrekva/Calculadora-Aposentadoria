@@ -1,6 +1,8 @@
 package com.akva.calculadoraaposentadoria.feature_simulation.presentation.details_screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -20,6 +22,8 @@ import com.akva.calculadoraaposentadoria.core.extensions.toYearsAndMonthsString
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationDetails
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.components.LabeledText
+import com.akva.calculadoraaposentadoria.feature_simulation.presentation.components.PrimaryDetailsInfoCard
+import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +56,7 @@ fun DetailsScreen(
             )
         }
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
@@ -71,79 +75,49 @@ fun DetailsScreen(
 
 @Composable
 private fun DetailsSection(simulationDetails: SimulationDetails) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-
-    ) {
-        simulationDetails.run {
+    simulationDetails.run {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
+            PrimaryDetailsInfoCard(simulationDetails = simulationDetails, onClick = { })
+            Spacer(modifier = Modifier.height(32.dp))
             LabeledText(
-                label = stringResource(R.string.patrimonio_total),
+                label = stringResource(R.string.proventos_mensais),
                 body = stringResource(
-                    R.string.simbolo_moeda_com_texto,
-                    totalPatrimony.toCurrencyFormat()
-                )
-            )
-            LabeledText(
-                label = stringResource(R.string.total_investido),
-                body = stringResource(
-                    R.string.simbolo_moeda_com_texto,
-                    totalInvested.toCurrencyFormat()
-                )
-            )
-            LabeledText(
-                label = stringResource(R.string.total_reinvestido_dividendos),
-                body = stringResource(
-                    R.string.simbolo_moeda_com_texto,
-                    totalReinvestedDividends.toCurrencyFormat()
-                )
-            )
-            LabeledText(
-                label = stringResource(R.string.valorizacao_total),
-                body = stringResource(
-                    R.string.simbolo_moeda_com_texto,
-                    totalAppreciation.toCurrencyFormat()
-                )
-            )
-
-            Divider(modifier = Modifier.fillMaxWidth())
-
-            Text(
-                text = stringResource(
                     R.string.proventos_mensais_ao_final,
                     finalMonthlyDividends.toCurrencyFormat()
-                ),
-                style = MaterialTheme.typography.bodyLarge
+                )
             )
-
-            Text(
-                text = when (firstMillionAchievedMonth) {
-                    0 -> stringResource(R.string.primeiro_milhao_ja_possuido)
-                    -1 -> stringResource(R.string.primeiro_milhao_nao_alcancado)
-                    else -> stringResource(
-                        R.string.primeiro_milhao_alcancado,
-                        firstMillionAchievedMonth.toYearsAndMonthsString(LocalContext.current) ?: ""
-                    )
-                },
-                style = MaterialTheme.typography.bodyLarge
-            )
-
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = if (hasDividendsSurpassedMonthlyContribution) {
                     stringResource(
                         R.string.proventos_ultrapassaram_contribuicao_mensal,
-                        dividendsSurpassedMonthlyContributionMonth.toYearsAndMonthsString(LocalContext.current) ?: ""
+                        dividendsSurpassedMonthlyContributionMonth.toYearsAndMonthsString(
+                            LocalContext.current
+                        ) ?: ""
                     )
                 } else {
                     stringResource(R.string.proventos_nao_ultrapassaram_contribuicao_mensal)
                 },
                 style = MaterialTheme.typography.bodyLarge
             )
-
+            Spacer(modifier = Modifier.height(32.dp))
+            LabeledText(
+                label = stringResource(R.string.primeiro_milhao),
+                body = when (firstMillionAchievedMonth) {
+                    0 -> stringResource(R.string.primeiro_milhao_ja_possuido)
+                    -1 -> stringResource(R.string.primeiro_milhao_nao_alcancado)
+                    else -> stringResource(
+                        R.string.primeiro_milhao_alcancado,
+                        firstMillionAchievedMonth.toYearsAndMonthsString(LocalContext.current)
+                            ?: ""
+                    )
+                }
+            )
         }
-
     }
 }
 
@@ -153,5 +127,14 @@ private fun DetailsSection(simulationDetails: SimulationDetails) {
     showSystemUi = true
 )
 private fun PreviewDetailsScreen() {
-    DetailsScreen(simulationParameters = null, popBackStack = {})
+    val simulationParameters = SimulationParameters(
+        initialAmount = BigDecimal(1000),
+        monthlyContribution = BigDecimal(100),
+        monthlyYield = 0.05f,
+        monthlyAppreciation = 0.07f,
+        years = 10,
+        isReinvestingDividends = true
+    )
+
+    DetailsScreen(simulationParameters = simulationParameters, popBackStack = {})
 }

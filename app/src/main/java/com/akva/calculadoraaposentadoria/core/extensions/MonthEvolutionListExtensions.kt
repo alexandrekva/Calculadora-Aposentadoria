@@ -14,7 +14,8 @@ fun MutableList<MonthEvolution>.addMonth(simulationParameters: SimulationParamet
 
 fun MutableList<MonthEvolution>.addFirstMonth(simulationParameters: SimulationParameters) {
     simulationParameters.run {
-        val firstMonthInvestment = if (initialAmount != BigDecimal(0)) initialAmount else monthlyContribution
+        val firstMonthInvestment =
+            if (initialAmount != BigDecimal(0)) initialAmount else monthlyContribution
 
         val monthEvolution = MonthEvolution(
             currentMonthInvestedValue = firstMonthInvestment,
@@ -33,7 +34,8 @@ fun MutableList<MonthEvolution>.addNextMonth(simulationParameters: SimulationPar
             if (isReinvestingDividends) previousMonth.totalPatrimony * monthlyYield.toBigDecimal()
             else BigDecimal.ZERO
 
-        val monthAppreciationValue = previousMonth.totalPatrimony * monthlyAppreciation.toBigDecimal()
+        val monthAppreciationValue =
+            previousMonth.totalPatrimony * monthlyAppreciation.toBigDecimal()
 
         val monthEvolution = MonthEvolution(
             currentMonthInvestedValue = monthlyContribution,
@@ -118,4 +120,8 @@ fun MutableList<MonthEvolution>.getTotalPatrimony(): BigDecimal {
     } else {
         BigDecimal.ZERO
     }
+}
+
+fun MutableList<MonthEvolution>.getYears(): List<MonthEvolution> {
+    return this.filterIndexed { index, _ ->  index != 0 && index % 11 == 0}
 }

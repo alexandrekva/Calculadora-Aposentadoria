@@ -8,6 +8,9 @@
     <string name="entenda_simulacao">Entenda a simulação</string>
     <string name="sobre_app">Sobre o app</string>
     <string name="aportes_titulo">Aportes</string>
+    <string name="expandir">Expandir</string>
+    <string name="contrair">Contrair</string>
+    <string name="acompanhe_ano_ano">Acompanhe a evolução ano a ano</string>
     <string name="como_funciona_aportes">
         O usuário pode contribuir diretamente com aportes de duas formas: investimento inicial e aportes mensais.
         \n\nO investimento inicial corresponde ao valor que será investido uma única vez apenas, no início do primeiro mês na simulação.
@@ -76,7 +79,7 @@
 
     <string name="patrimonio_total">Patrimônio total</string>
     <string name="total_investido">Total investido</string>
-    <string name="total_reinvestido_dividendos">Total reinvestido em dividendos</string>
+    <string name="total_reinvestido_proventos">Total reinvestido em proventos</string>
     <string name="valorizacao_total">Valorização total</string>
     <string name="primeiro_milhao">Primeiro milhão</string>
     <string name="primeiro_milhao_ja_possuido">Você já possuía 1 milhão ou mais quando começou a investir.</string>
