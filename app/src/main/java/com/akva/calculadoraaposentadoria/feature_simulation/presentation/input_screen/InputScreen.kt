@@ -10,11 +10,9 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +24,7 @@ import com.akva.calculadoraaposentadoria.core.components.labeled_slider.LabeledS
 import com.akva.calculadoraaposentadoria.core.components.labeled_switch.LabeledSwitch
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.components.InfoIconWithDialog
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputScreen(
     inputScreenViewModel: InputScreenViewModel = viewModel(),
@@ -39,7 +37,6 @@ fun InputScreen(
     val menuState = inputScreenViewModel.menuState
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = remember { TopAppBarDefaults.pinnedScrollBehavior(appBarState) }
-
 
     val years = inputScreenViewModel.years
     val initialAmount = inputScreenViewModel.initialAmount
@@ -93,10 +90,10 @@ fun InputScreen(
                                     inputScreenViewModel.setMenuState(false)
                                 },
                             )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.sobre_app)) },
-                                onClick = { /* Handle edit! */ },
-                            )
+//                            DropdownMenuItem(
+//                                text = { Text(stringResource(R.string.sobre_app)) },
+//                                onClick = { /* Handle edit! */ },
+//                            )
                         }
                     }
                 }
@@ -205,10 +202,7 @@ fun InputScreen(
 
                 LabeledSlider(
                     modifier = Modifier.fillMaxWidth(),
-                    label = pluralStringResource(
-                        id = R.plurals.stringPluralAnos,
-                        count = years.value.toInt()
-                    ),
+                    label = stringResource(R.string.anos),
                     progress = years
                 )
             }

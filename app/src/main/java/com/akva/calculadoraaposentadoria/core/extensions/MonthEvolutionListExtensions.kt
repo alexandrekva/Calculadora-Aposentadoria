@@ -2,7 +2,9 @@ package com.akva.calculadoraaposentadoria.core.extensions
 
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.MonthEvolution
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
+import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.YearEvolution
 import java.math.BigDecimal
+import java.util.*
 
 fun MutableList<MonthEvolution>.addMonth(simulationParameters: SimulationParameters) {
     if (this.size == 0) {
@@ -20,6 +22,7 @@ fun MutableList<MonthEvolution>.addFirstMonth(simulationParameters: SimulationPa
         val monthEvolution = MonthEvolution(
             currentMonthInvestedValue = firstMonthInvestment,
             totalInvestedValue = firstMonthInvestment,
+            totalPatrimony = firstMonthInvestment
         )
 
         this@addFirstMonth.add(monthEvolution)
@@ -27,23 +30,29 @@ fun MutableList<MonthEvolution>.addFirstMonth(simulationParameters: SimulationPa
 }
 
 fun MutableList<MonthEvolution>.addNextMonth(simulationParameters: SimulationParameters) {
-    val previousMonth = this@addNextMonth.last()
+    val previousMonth = this.last()
 
     simulationParameters.run {
-        val reinvestedDividendsValue =
-            if (isReinvestingDividends) previousMonth.totalPatrimony * monthlyYield.toBigDecimal()
-            else BigDecimal.ZERO
-
-        val monthAppreciationValue =
+        val currentMonthDividends = previousMonth.totalPatrimony * monthlyYield.toBigDecimal()
+        val currentMonthAppreciation =
             previousMonth.totalPatrimony * monthlyAppreciation.toBigDecimal()
+        val totalInvestedValue = previousMonth.totalInvestedValue + monthlyContribution
+        val totalDividends = previousMonth.totalDividends + currentMonthDividends
+        val totalAppreciation = previousMonth.totalAppreciation + currentMonthAppreciation
+        val totalPatrimony = if (isReinvestingDividends) {
+            totalAppreciation + totalInvestedValue + totalAppreciation
+        } else {
+            totalInvestedValue + totalAppreciation
+        }
 
         val monthEvolution = MonthEvolution(
             currentMonthInvestedValue = monthlyContribution,
-            currentMonthReinvestedDividends = reinvestedDividendsValue,
-            currentMonthAppreciation = monthAppreciationValue,
-            totalInvestedValue = previousMonth.totalInvestedValue + monthlyContribution,
-            totalReinvestedDividends = previousMonth.totalReinvestedDividends + reinvestedDividendsValue,
-            totalAppreciation = previousMonth.totalAppreciation + monthAppreciationValue
+            currentMonthDividends = currentMonthDividends,
+            currentMonthAppreciation = currentMonthAppreciation,
+            totalInvestedValue = totalInvestedValue,
+            totalDividends = totalDividends,
+            totalAppreciation = totalAppreciation,
+            totalPatrimony = totalPatrimony
         )
 
         this@addNextMonth.add(monthEvolution)
@@ -60,12 +69,12 @@ fun MutableList<MonthEvolution>.getFinalMonthlyDividends(monthlyYield: Float): B
 }
 
 fun MutableList<MonthEvolution>.hasDividendsSurpassedMonthlyContribution(monthlyContribution: BigDecimal): Boolean {
-    return (this.last().currentMonthReinvestedDividends > monthlyContribution)
+    return (this.last().currentMonthDividends > monthlyContribution)
 }
 
 fun MutableList<MonthEvolution>.getDividendsSurpassedMonthlyContributionMonth(): Int {
     val dividendsBiggerThanMonthlyInvestmentMonth =
-        this.find { it.currentMonthReinvestedDividends > it.currentMonthInvestedValue }
+        this.find { it.currentMonthDividends > it.currentMonthInvestedValue }
     return this.indexOf(dividendsBiggerThanMonthlyInvestmentMonth)
 }
 
@@ -83,7 +92,7 @@ fun MutableList<MonthEvolution>.getPatrimonyGoalAchievedMonth(patrimonyGoal: Big
 fun MutableList<MonthEvolution>.getDividendsGoalAchieved(dividendsGoal: BigDecimal): Int {
     return if (dividendsGoal != BigDecimal.ZERO) {
         val dividendsGoalAchievedMonth =
-            this.find { it.currentMonthReinvestedDividends >= dividendsGoal }
+            this.find { it.currentMonthDividends >= dividendsGoal }
         this.indexOf(dividendsGoalAchievedMonth)
     } else {
         -1
@@ -98,9 +107,9 @@ fun MutableList<MonthEvolution>.getTotalInvestedValue(): BigDecimal {
     }
 }
 
-fun MutableList<MonthEvolution>.getTotalReinvestedDividends(): BigDecimal {
+fun MutableList<MonthEvolution>.getTotalDividends(): BigDecimal {
     return if (this.isNotEmpty()) {
-        this.last().totalReinvestedDividends
+        this.last().totalDividends
     } else {
         BigDecimal.ZERO
     }
@@ -122,6 +131,45 @@ fun MutableList<MonthEvolution>.getTotalPatrimony(): BigDecimal {
     }
 }
 
-fun MutableList<MonthEvolution>.getYears(): List<MonthEvolution> {
-    return this.filterIndexed { index, _ ->  index != 0 && index % 11 == 0}
+fun List<MonthEvolution>.getWindowTotalPatrimony(): BigDecimal {
+    return this.last().totalPatrimony
+}
+
+fun List<MonthEvolution>.getWindowTotalDividends(): BigDecimal {
+    var totalDividends = BigDecimal.ZERO
+
+    this.map { totalDividends += it.currentMonthDividends }
+
+    return totalDividends
+}
+
+fun List<MonthEvolution>.getWindowTotalInvested(): BigDecimal {
+    var totalInvested = BigDecimal.ZERO
+
+    this.map { totalInvested += it.currentMonthInvestedValue }
+
+    return totalInvested
+}
+
+fun List<MonthEvolution>.getWindowTotalAppreciation(): BigDecimal {
+    var totalAppreciation = BigDecimal.ZERO
+
+    this.map { totalAppreciation += it.currentMonthAppreciation }
+
+    return totalAppreciation
+}
+
+fun MutableList<MonthEvolution>.getYearByYearEvolution(): List<YearEvolution> {
+    val year = Calendar.getInstance().get(Calendar.YEAR)
+    val yearWindows = this.windowed(size = 12, step = 12)
+
+    return yearWindows.mapIndexed { index, monthEvolutions ->
+        YearEvolution(
+            year = year + index + 1,
+            totalPatrimony = monthEvolutions.getWindowTotalPatrimony(),
+            totalInvestedInYear = monthEvolutions.getWindowTotalInvested(),
+            totalDividendsInYear = monthEvolutions.getWindowTotalDividends(),
+            totalAppreciationInYear = monthEvolutions.getWindowTotalAppreciation()
+        )
+    }
 }

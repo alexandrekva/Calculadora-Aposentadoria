@@ -66,6 +66,8 @@ fun UnderstandSimulationScreen(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(16.dp))
+                Divider()
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(R.string.rendimento_titulo),
                     style = MaterialTheme.typography.labelLarge
@@ -75,6 +77,8 @@ fun UnderstandSimulationScreen(
                     text = stringResource(R.string.como_funciona_rendimento),
                     style = MaterialTheme.typography.bodyLarge
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+                Divider()
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(R.string.proventos_titulo),

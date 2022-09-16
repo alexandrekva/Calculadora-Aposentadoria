@@ -4,17 +4,19 @@
     <!--Strings-->
     <string name="simulacao">Simulação</string>
     <string name="detalhes">Detalhes</string>
+    <string name="ano_a_ano">Ano a ano</string>
     <string name="simular">Simular</string>
     <string name="entenda_simulacao">Entenda a simulação</string>
     <string name="sobre_app">Sobre o app</string>
     <string name="aportes_titulo">Aportes</string>
+    <string name="reinvestido">Reinvestido</string>
     <string name="expandir">Expandir</string>
     <string name="contrair">Contrair</string>
-    <string name="acompanhe_ano_ano">Acompanhe a evolução ano a ano</string>
+    <string name="acompanhe_ano_ano">Acompanhe ano a ano</string>
     <string name="como_funciona_aportes">
         O usuário pode contribuir diretamente com aportes de duas formas: investimento inicial e aportes mensais.
-        \n\nO investimento inicial corresponde ao valor que será investido uma única vez apenas, no início do primeiro mês na simulação.
-         Caso o usuário tenha optado por fazer um aporte inicial, nesse primeiro mês, não será feito o aporte mensal.
+        \n\nO investimento inicial corresponde ao valor que será investido uma única vez apenas, no primeiro mês na simulação.
+         Caso o usuário tenha optado por fazer um aporte inicial, nesse primeiro mês não será feito o aporte mensal.
         \n\nOs aportes mensais serão feitos em todos os meses, exceto no primeiro mês, caso o usuário tenha optado por realizar um investimento inicial, como mencionado anteriormente.
         \n\nAo final da simulação o usuário poderá visualizar o valor total investido diretamente pelo usuário, contando investimento inicial e aportes mensais.
     </string>
@@ -35,6 +37,8 @@
     <string name="fechar">Fechar</string>
     <string name="voltar">Voltar</string>
     <string name="e">e</string>
+    <string name="ano">ano</string>
+    <string name="anos">ano(s)</string>
 
     <plurals name="stringPluralMeses">
         <item quantity="zero" />
@@ -79,8 +83,12 @@
 
     <string name="patrimonio_total">Patrimônio total</string>
     <string name="total_investido">Total investido</string>
-    <string name="total_reinvestido_proventos">Total reinvestido em proventos</string>
+    <string name="total_investido_ano">Total investido no ano</string>
+    <string name="total_proventos">Total ganho em proventos</string>
+    <string name="total_proventos_ano">Total ganho em proventos no ano</string>
+    <string name="total_proventos_reinvestido">Total reinvestido em proventos</string>
     <string name="valorizacao_total">Valorização total</string>
+    <string name="valorizacao_total_ano">Valorização total no ano</string>
     <string name="primeiro_milhao">Primeiro milhão</string>
     <string name="primeiro_milhao_ja_possuido">Você já possuía 1 milhão ou mais quando começou a investir.</string>
     <string name="primeiro_milhao_nao_alcancado">Você ainda não alcançou o primeiro milhão.</string>

@@ -3,7 +3,8 @@ package com.akva.calculadoraaposentadoria.feature_simulation.presentation.detail
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.akva.calculadoraaposentadoria.core.extensions.getYears
+import com.akva.calculadoraaposentadoria.core.extensions.getYearByYearEvolution
+import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.MonthEvolution
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationDetails
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
 import com.akva.calculadoraaposentadoria.feature_simulation.utils.CreateMonthEvolutionListFromParameters
@@ -16,9 +17,15 @@ class DetailsScreenViewModel : ViewModel() {
         mutableStateOf<DetailsScreenViewState>(DetailsScreenViewState.Loading)
         private set
 
+    var yearByYearScreenViewState =
+        mutableStateOf<YearByYearScreenViewState>(YearByYearScreenViewState.Loading)
+        private set
+
+    private var monthEvolutionList: MutableList<MonthEvolution> = mutableListOf()
+
     fun simulate(simulationParameters: SimulationParameters) {
         viewModelScope.launch(Dispatchers.Default) {
-            val monthEvolutionList =
+            monthEvolutionList =
                 CreateMonthEvolutionListFromParameters(simulationParameters)
             detailsScreenViewState.value =
                 DetailsScreenViewState.Loaded(
@@ -27,6 +34,13 @@ class DetailsScreenViewModel : ViewModel() {
                         simulationParameters = simulationParameters
                     )
                 )
+        }
+    }
+
+    fun getYearByYearEvolution() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val yearList = monthEvolutionList.getYearByYearEvolution()
+            yearByYearScreenViewState.value = YearByYearScreenViewState.Loaded(yearList)
         }
     }
 }

@@ -23,14 +23,16 @@ import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.Simu
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.components.LabeledText
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.components.PrimaryDetailsInfoCard
+import com.akva.calculadoraaposentadoria.feature_simulation.presentation.details_screen.DetailsScreenViewState.*
 import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    detailsScreenViewModel: DetailsScreenViewModel = viewModel(),
+    detailsScreenViewModel: DetailsScreenViewModel,
     simulationParameters: SimulationParameters?,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
+    navigateToYearByYear: () -> Unit
 ) {
 
     val detailsScreenViewState = detailsScreenViewModel.detailsScreenViewState
@@ -62,26 +64,35 @@ fun DetailsScreen(
                 .fillMaxSize()
         ) {
             when (val viewState = detailsScreenViewState.value) {
-                is DetailsScreenViewState.Loading -> {
+                is Loading -> {
                     LoadingScreen()
                     requireNotNull(simulationParameters)
                     detailsScreenViewModel.simulate(simulationParameters)
                 }
-                is DetailsScreenViewState.Loaded -> DetailsSection(viewState.simulationDetails)
+                is Loaded -> DetailsSection(
+                    simulationDetails = viewState.simulationDetails,
+                    navigateToYearByYear = navigateToYearByYear
+                )
             }
         }
     }
 }
 
 @Composable
-private fun DetailsSection(simulationDetails: SimulationDetails) {
+private fun DetailsSection(
+    simulationDetails: SimulationDetails,
+    navigateToYearByYear: () -> Unit
+) {
     simulationDetails.run {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            PrimaryDetailsInfoCard(simulationDetails = simulationDetails, onClick = { })
+            PrimaryDetailsInfoCard(
+                simulationDetails = simulationDetails,
+                onClick = navigateToYearByYear
+            )
             Spacer(modifier = Modifier.height(32.dp))
             LabeledText(
                 label = stringResource(R.string.proventos_mensais),
@@ -136,5 +147,10 @@ private fun PreviewDetailsScreen() {
         isReinvestingDividends = true
     )
 
-    DetailsScreen(simulationParameters = simulationParameters, popBackStack = {})
+    DetailsScreen(
+        detailsScreenViewModel = viewModel(),
+        simulationParameters = simulationParameters,
+        popBackStack = {},
+        navigateToYearByYear = {},
+    )
 }

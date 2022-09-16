@@ -27,12 +27,12 @@ fun LabeledSlider(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            modifier = Modifier.fillMaxWidth(0.15f),
+            modifier = Modifier.fillMaxWidth(0.20f),
             style = MaterialTheme.typography.labelLarge,
             text = "${progress.value.toInt()} $label"
         )
         Slider(
-            modifier = Modifier.fillMaxWidth(0.85f),
+            modifier = Modifier.fillMaxWidth(0.80f),
             value = progress.value,
             valueRange = valueRange,
             onValueChange = { if (it.toInt() != 0) progress.value = it })

@@ -2,32 +2,36 @@ package com.akva.calculadoraaposentadoria.navigation
 
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.NavHostController
 import androidx.navigation.navArgument
 import com.akva.calculadoraaposentadoria.feature_simulation.domain.entities.SimulationParameters
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.details_screen.DetailsScreen
+import com.akva.calculadoraaposentadoria.feature_simulation.presentation.details_screen.YearByYearScreen
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.input_screen.InputScreen
 import com.akva.calculadoraaposentadoria.feature_simulation.presentation.understand_simulation_screen.UnderstandSimulationScreen
+import com.akva.calculadoraaposentadoria.navigation.Screens.*
 
 @RequiresApi(33)
 @Composable
 fun SetupNavGraph(navController: NavHostController, startDestination: String) {
     NavHost(navController = navController, startDestination = startDestination) {
-        composable(route = Screens.InputScreen.route) {
+        composable(route = InputScreen.route) {
             InputScreen(
                 onNavigationToDetails = { simulationParameters: String ->
                     val routeWithArgs =
-                        Screens.DetailsScreen.passSimulationParameters(simulationParameters)
+                        DetailsScreen.passSimulationParameters(simulationParameters)
                     navController.navigate(routeWithArgs)
                 },
-                navigateToUnderstandSimulation = { navController.navigate(Screens.UnderstandSimulationScreen.route) }
+                navigateToUnderstandSimulation = { navController.navigate(UnderstandSimulationScreen.route) }
             )
         }
 
         composable(
-            route = Screens.DetailsScreen.route, arguments = listOf(
+            route = DetailsScreen.route, arguments = listOf(
                 navArgument(SIMULATION_PARAMETERS_ARGS_KEY) {
                     type = SimulationParameters.NavigationType
                 }
@@ -37,15 +41,24 @@ fun SetupNavGraph(navController: NavHostController, startDestination: String) {
                 backStackEntry.arguments?.getParcelable<SimulationParameters>(
                     SIMULATION_PARAMETERS_ARGS_KEY
                 )
-
             DetailsScreen(
+                detailsScreenViewModel = viewModel(backStackEntry),
                 simulationParameters = simulationParameters,
-                popBackStack = { navController.popBackStack() }
+                popBackStack = { navController.popBackStack() },
+                navigateToYearByYear = { navController.navigate(YearByYearScreen.route) }
             )
         }
 
-        composable(route = Screens.UnderstandSimulationScreen.route) {
+        composable(route = UnderstandSimulationScreen.route) {
             UnderstandSimulationScreen(popBackStack = { navController.popBackStack() })
+        }
+
+        composable(route = YearByYearScreen.route) {
+            val viewModelStoreOwner =
+                remember { navController.getBackStackEntry(DetailsScreen.route) }
+            YearByYearScreen(
+                detailsScreenViewModel = viewModel(viewModelStoreOwner),
+                popBackStack = { navController.popBackStack() })
         }
     }
 

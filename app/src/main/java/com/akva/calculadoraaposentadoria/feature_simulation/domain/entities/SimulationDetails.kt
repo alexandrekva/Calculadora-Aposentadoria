@@ -8,7 +8,7 @@ data class SimulationDetails(
     val simulationParameters: SimulationParameters
 ) {
     val totalInvested: BigDecimal = monthEvolutionList.getTotalInvestedValue()
-    val totalReinvestedDividends: BigDecimal = monthEvolutionList.getTotalReinvestedDividends()
+    val totalDividends: BigDecimal = monthEvolutionList.getTotalDividends()
     val totalAppreciation: BigDecimal = monthEvolutionList.getTotalAppreciation()
     val totalPatrimony: BigDecimal = monthEvolutionList.getTotalPatrimony()
     val finalMonthlyDividends: BigDecimal =
