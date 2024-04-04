@@ -20,9 +20,9 @@ android {
         applicationId "com.akva.calculadoraaposentadoria"
         minSdk 27
         targetSdk 32
-        versionCode 1
+        versionCode 8
         compileSdkVersion = 33
-        versionName "1.0"
+        versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
